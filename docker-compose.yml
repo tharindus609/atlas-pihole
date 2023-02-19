@@ -20,7 +20,6 @@ services:
     volumes:
       - dnsmasqd:/etc/dnsmasq.d
       - data:/etc/pihole
-      - ./config-data/pihole/custom.list:/etc/pihole/custom.list
       - ./config-data/dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf
     networks:
       mgmt:
