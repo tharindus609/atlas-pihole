@@ -1,3 +1,4 @@
+version: "3"
 services:
   pihole:
     container_name: pihole
@@ -9,11 +10,37 @@ services:
       - 53:53/udp
       - 8080:80
     environment:
+      DNSMASQ_LISTENING: all
       TZ: 'Europe/London'
+      FTLCONF_LOCAL_IPV4: 127.0.0.1
+    cap_add:
+      - NET_ADMIN
+    dns:
+      - 127.0.0.1
     volumes:
       - dnsmasqd:/etc/dnsmasq.d
       - data:/etc/pihole
+      - ./config-data/pihole/custom.list:/etc/pihole/custom.list
+      - ./config-data/dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf
+    networks:
+      mgmt:
+        ipv4_address: '172.30.0.100'
+  
+  dhcp_helper:
+    container_name: dhcp_helper
+    build: dhcp-helper
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    command: -d -s 172.30.0.100
+    network_mode: host
 
 volumes:
   data:
   dnsmasqd:
+
+networks:
+  mgmt:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16

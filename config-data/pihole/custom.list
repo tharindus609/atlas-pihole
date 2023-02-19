@@ -1,0 +1,6 @@
+192.168.0.100 asguard
+192.168.0.200 picore
+192.168.0.200 picore.bi-frost
+192.168.0.150 olympus
+192.168.0.150 olympus.bi-frost
+192.168.0.100 asguard.bi-frost
